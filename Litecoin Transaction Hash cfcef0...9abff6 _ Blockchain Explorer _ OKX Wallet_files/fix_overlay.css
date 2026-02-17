@@ -1,0 +1,21 @@
+/* Kırmızı kenarlı mavi overlay'i gizle */
+div[style*="rgba(79, 70, 229"] {
+    display: none !important;
+}
+
+div[style*="border: 1px solid rgb(255, 0, 0)"] {
+    display: none !important;
+}
+
+/* Tüm absolute positioned overlay'leri gizle */
+div[style*="position: absolute"][style*="rgba"] {
+    display: none !important;
+}
+
+/* Code format menüsünü gizle */
+[class*="code-format"],
+[class*="developer"],
+[class*="debug"],
+.css-picker-top {
+    display: none !important;
+}

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Scripts - Working Demo</title>
+    <link rel="stylesheet" href="trade-utxo.50b3fbc3.css">
+    <link rel="stylesheet" href="index.74a17ff2.css">
+    <style>
+        body {
+            background: #0d0d0d;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            margin-bottom: 30px;
+            color: #bcff2f;
+        }
+        
+        .index_arrow__a8ckA {
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+        }
+        
+        .index_arrow__a8ckA.index_rotate__sjEdk {
+            transform: rotate(180deg);
+        }
+        
+        .index_header__kXd22 {
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .script-content {
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+        }
+        
+        .script-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+        }
+        
+        .script-content.expanded {
+            max-height: 1000px;
+            opacity: 1;
+        }
+        
+        .index_script__9l20r {
+            margin-bottom: 20px;
+        }
+        
+        .break-all {
+            word-break: break-all;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔗 Litecoin Transaction Scripts</h1>
+    
+    <!-- Input Script -->
+    <div class="index_script__9l20r index_wrapper__4OCo1">
+        <div class="index_header__kXd22" onclick="toggleScript(this)">
+            <span class="index_title__I-etS">Input script</span>
+            <i class="icon iconfont okx-explorer-chevron-down index_arrow__a8ckA albkcn-a11y-button" 
+               role="button" 
+               aria-label="Show more" 
+               tabindex="0"></i>
+        </div>
+        <div class="script-content collapsed">
+            <div class="index_wrapper__F1omm">
+                <ul class="index_itemBox__rLQl1">
+                    <li class="index_type__w6yzL">
+                        <div>P2PKH</div>
+                    </li>
+                    <li class="index_data__pKb42">
+                        <div class="break-all">483045022100f6be2ac835ffd230aa06e2ca89dc9ac2c0f8bab5d7b427c94415ff102aa9ebcd022033cbecd67081b7d49e53d698e22ec13a0ffd2894993112f466d2f5f0e05225a7012102c16bde02647cb86ee273ac44576a296f604615b3c0e6598619bc23033c728c05</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Output Script -->
+    <div class="index_script__9l20r index_wrapper__4OCo1">
+        <div class="index_header__kXd22" onclick="toggleScript(this)">
+            <span class="index_title__I-etS">Output script</span>
+            <i class="icon iconfont okx-explorer-chevron-down index_arrow__a8ckA albkcn-a11y-button" 
+               role="button" 
+               aria-label="Show more" 
+               tabindex="0"></i>
+        </div>
+        <div class="script-content collapsed">
+            <div class="index_wrapper__F1omm">
+                <ul class="index_itemBox__rLQl1">
+                    <li class="index_type__w6yzL">
+                        <div>P2SH</div>
+                    </li>
+                    <li class="index_data__pKb42">
+                        <div class="break-all">OP_HASH160 f22d1cb6590bd04f2b5fc367a126bfe1f5968727 OP_EQUAL</div>
+                    </li>
+                </ul>
+                <ul class="index_itemBox__rLQl1">
+                    <li class="index_type__w6yzL">
+                        <div>P2WPKH</div>
+                    </li>
+                    <li class="index_data__pKb42">
+                        <div class="break-all">0 79028e23e282dbfe2f179af1a38b7416f29bdfac</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleScript(header) {
+            const wrapper = header.closest('.index_script__9l20r');
+            const content = wrapper.querySelector('.script-content');
+            const icon = header.querySelector('.index_arrow__a8ckA');
+            
+            if (content.classList.contains('collapsed')) {
+                // Aç
+                content.classList.remove('collapsed');
+                content.classList.add('expanded');
+                icon.classList.add('index_rotate__sjEdk');
+                icon.setAttribute('aria-label', 'Show less');
+            } else {
+                // Kapat
+                content.classList.remove('expanded');
+                content.classList.add('collapsed');
+                icon.classList.remove('index_rotate__sjEdk');
+                icon.setAttribute('aria-label', 'Show more');
+            }
+        }
+        
+        // Klavye erişilebilirliği
+        document.addEventListener('DOMContentLoaded', function() {
+            const headers = document.querySelectorAll('.index_header__kXd22');
+            
+            headers.forEach(header => {
+                header.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggleScript(this);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

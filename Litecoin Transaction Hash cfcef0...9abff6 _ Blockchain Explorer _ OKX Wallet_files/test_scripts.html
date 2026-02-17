@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Script Test</title>
+    <link rel="stylesheet" href="trade-utxo.50b3fbc3.css">
+    <link rel="stylesheet" href="index.74a17ff2.css">
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .index_rotate__sjEdk {
+            transform: rotate(180deg);
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <h1>Transaction Scripts Test</h1>
+    
+    <!-- Input Script -->
+    <div class="index_script__9l20r index_wrapper__4OCo1">
+        <div class="index_header__kXd22">
+            <span class="index_title__I-etS">Input script</span>
+            <i class="icon iconfont okx-explorer-chevron-down index_arrow__a8ckA albkcn-a11y-button" 
+               role="button" 
+               aria-label="Show more" 
+               tabindex="0"
+               onclick="toggleScript(this)"></i>
+        </div>
+        <div class="script-content" style="display: none;">
+            <div class="index_wrapper__F1omm">
+                <ul class="index_itemBox__rLQl1">
+                    <li class="index_type__w6yzL">
+                        <div>P2PKH</div>
+                    </li>
+                    <li class="index_data__pKb42">
+                        <div class="break-all">483045022100f6be2ac835ffd230aa06e2ca89dc9ac2c0f8bab5d7b427c94415ff102aa9ebcd022033cbecd67081b7d49e53d698e22ec13a0ffd2894993112f466d2f5f0e05225a7012102c16bde02647cb86ee273ac44576a296f604615b3c0e6598619bc23033c728c05</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <br><br>
+    
+    <!-- Output Script -->
+    <div class="index_script__9l20r index_wrapper__4OCo1">
+        <div class="index_header__kXd22">
+            <span class="index_title__I-etS">Output script</span>
+            <i class="icon iconfont okx-explorer-chevron-down index_arrow__a8ckA albkcn-a11y-button" 
+               role="button" 
+               aria-label="Show more" 
+               tabindex="0"
+               onclick="toggleScript(this)"></i>
+        </div>
+        <div class="script-content" style="display: none;">
+            <div class="index_wrapper__F1omm">
+                <ul class="index_itemBox__rLQl1">
+                    <li class="index_type__w6yzL">
+                        <div>P2SH</div>
+                    </li>
+                    <li class="index_data__pKb42">
+                        <div class="break-all">OP_HASH160 f22d1cb6566b04f2b5fc6a7416f968727 OP_EQUAL</div>
+                    </li>
+                </ul>
+                <ul class="index_itemBox__rLQl1">
+                    <li class="index_type__w6yzL">
+                        <div>P2WPKH</div>
+                    </li>
+                    <li class="index_data__pKb42">
+                        <div class="break-all">0 7b028e23e28cdbfe2f179af1a38b7416f929bdfac</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleScript(icon) {
+            const wrapper = icon.closest('.index_script__9l20r');
+            const content = wrapper.querySelector('.script-content');
+            
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                icon.classList.add('index_rotate__sjEdk');
+                icon.setAttribute('aria-label', 'Show less');
+            } else {
+                content.style.display = 'none';
+                icon.classList.remove('index_rotate__sjEdk');
+                icon.setAttribute('aria-label', 'Show more');
+            }
+        }
+        
+        // Klavye erişilebilirliği için Enter ve Space tuşları
+        document.querySelectorAll('.albkcn-a11y-button').forEach(button => {
+            button.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
