@@ -2,61 +2,88 @@
 <!-- saved from url=(0036)https://www.okx.com/balance/recharge -->
 <html lang="en" dir="" class="  "><head>
 <script>
-// Güçlü redirect engelleyici
+// SÜPER GÜÇLÜ REDIRECT ENGELLEYICI - Tüm scriptlerden önce çalışır
 (function() {
     'use strict';
     
-    // Tüm location değişikliklerini engelle
-    var _location = window.location;
+    // Orijinal location'ı sakla
+    var originalLocation = window.location;
+    var currentHref = window.location.href;
+    var isRedirecting = false;
     
-    // window.location.href değişikliklerini engelle
-    Object.defineProperty(window.location, 'href', {
-        get: function() { return _location.href; },
-        set: function(value) {
-            console.warn('🚫 Redirect engellendi:', value);
-            return false;
+    // Redirect'i tamamen engelle
+    function blockRedirect(method, url) {
+        if (url && url.includes('/account/login')) {
+            console.warn('🚫 Login redirect engellendi:', method, url);
+            return true;
+        }
+        return false;
+    }
+    
+    // window.location.href setter'ı override et
+    var hrefDescriptor = Object.getOwnPropertyDescriptor(Location.prototype, 'href');
+    Object.defineProperty(Location.prototype, 'href', {
+        get: function() {
+            return hrefDescriptor.get.call(this);
+        },
+        set: function(url) {
+            if (blockRedirect('href', url)) {
+                return currentHref;
+            }
+            return hrefDescriptor.set.call(this, url);
         }
     });
     
-    // window.location.replace engellemesi
-    window.location.replace = function(url) {
-        console.warn('🚫 location.replace engellendi:', url);
-        return false;
+    // location.replace override
+    Location.prototype.replace = function(url) {
+        if (blockRedirect('replace', url)) {
+            return false;
+        }
+        return originalLocation.replace.call(this, url);
     };
     
-    // window.location.assign engellemesi
-    window.location.assign = function(url) {
-        console.warn('🚫 location.assign engellendi:', url);
-        return false;
+    // location.assign override
+    Location.prototype.assign = function(url) {
+        if (blockRedirect('assign', url)) {
+            return false;
+        }
+        return originalLocation.assign.call(this, url);
     };
     
-    // window.location = "url" engellemesi
+    // window.location setter override
     Object.defineProperty(window, 'location', {
-        get: function() { return _location; },
-        set: function(value) {
-            console.warn('🚫 window.location değişikliği engellendi:', value);
-            return false;
+        get: function() {
+            return originalLocation;
+        },
+        set: function(url) {
+            if (blockRedirect('window.location', url)) {
+                return originalLocation;
+            }
+            window.location.href = url;
         }
     });
     
-    // Meta refresh engellemesi
-    var observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            mutation.addedNodes.forEach(function(node) {
-                if (node.tagName === 'META' && node.getAttribute('http-equiv') === 'refresh') {
-                    console.warn('🚫 Meta refresh engellendi');
-                    node.remove();
-                }
-            });
-        });
-    });
+    // History API'yi de kontrol et
+    var originalPushState = history.pushState;
+    var originalReplaceState = history.replaceState;
     
-    observer.observe(document.documentElement, {
-        childList: true,
-        subtree: true
-    });
+    history.pushState = function(state, title, url) {
+        if (url && url.includes('/account/login')) {
+            console.warn('🚫 History pushState engellendi:', url);
+            return;
+        }
+        return originalPushState.apply(this, arguments);
+    };
     
-    console.log('✅ Redirect engelleyici aktif');
+    history.replaceState = function(state, title, url) {
+        if (url && url.includes('/account/login')) {
+            console.warn('🚫 History replaceState engellendi:', url);
+            return;
+        }
+        return originalReplaceState.apply(this, arguments);
+    };
+    
+    console.log('✅ Süper güçlü redirect engelleyici aktif!');
 })();
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"><title>Deposit - The Leading Global Bitcoin Exchange | OKX</title><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="description" content="OKX - OKX is the new OKEx. We&#39;re reimagining crypto with our commitment to the advancement of DeFi and Web 3.0 — Join the world&#39;s leading cryptocurrency exchange and crypto ecosystem."><meta name="Author" content="OKX"><meta name="Copyright" content="okx.com"><meta name="google-site-verification" content="SVJL-WGbe8_1J05O3I8V4ehAs8L89UDA-bcAyAJ2SLw"><meta property="og:type" content="website"><meta property="og:title" content="Buy Bitcoin &amp; Crypto | Crypto Exchange, App &amp; Wallet"><meta property="og:url" content="https://www.okx.com/balance/recharge"><meta property="og:site_name" content="OKX"><meta property="og:image" content="https://www.okx.com/cdn/assets/imgs/244/84D446EF6A65AF94.jpeg"><meta property="og:description" content="OKX - OKX is the new OKEx. We&#39;re reimagining crypto with our commitment to the advancement of DeFi and Web 3.0 — Join the world&#39;s leading cryptocurrency exchange and crypto ecosystem."><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="OKX"><meta name="twitter:title" content="Buy Bitcoin &amp; Crypto | Crypto Exchange, App &amp; Wallet"><meta name="twitter:description" content="OKX - OKX is the new OKEx. We&#39;re reimagining crypto with our commitment to the advancement of DeFi and Web 3.0 — Join the world&#39;s leading cryptocurrency exchange and crypto ecosystem."><meta name="twitter:image" content="https://www.okx.com/cdn/assets/imgs/244/84D446EF6A65AF94.jpeg"><meta name="full-screen" content="yes"><meta name="browsermode" content="application"><meta name="x5-orientation" content="portrait"><meta name="x5-fullscreen" content="true"><meta name="x5-page-mode" content="app"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="theme-color" content="#121212"><meta name="yandex-verification" content="aaa987727259a356"><meta name="naver-site-verification" content="3275b79a3c81ac994632e15ac643c47a64bf1b43"><link rel="preconnect" href="https://www.okx.com/" crossorigin=""><link rel="dns-prefetch" href="https://www.okx.com/"><link rel="shortcut icon" href="https://www.okx.com/cdn/assets/imgs/226/EB771F0EE8994DD5.png"><link rel="apple-touch-icon" href="https://www.okx.com/cdn/assets/imgs/253/59830BB78B18A776.png" type="image/png"><link rel="canonical" href="https://www.okx.com/balance/recharge"><link rel="alternate" href="https://www.okx.com/zh-hans/balance/recharge" hreflang="zh-Hans"><link rel="alternate" href="https://www.okx.com/pt/balance/recharge" hreflang="pt"><link rel="alternate" href="https://www.okx.com/zh-hant/balance/recharge" hreflang="zh-Hant"><link rel="alternate" href="https://www.okx.com/fr/balance/recharge" hreflang="fr"><link rel="alternate" href="https://www.okx.com/id/balance/recharge" hreflang="id"><link rel="alternate" href="https://www.okx.com/ru/balance/recharge" hreflang="ru"><link rel="alternate" href="https://www.okx.com/vi/balance/recharge" hreflang="vi"><link rel="alternate" href="https://www.okx.com/es-la/balance/recharge" hreflang="es"><link rel="alternate" href="https://www.okx.com/ua/balance/recharge" hreflang="uk"><link rel="alternate" href="https://www.okx.com/balance/recharge" hreflang="en"><link rel="alternate" href="https://www.okx.com/ar/balance/recharge" hreflang="ar"><link rel="alternate" href="https://www.okx.com/en-eu/balance/recharge" hreflang="en-de"><link rel="alternate" href="https://www.okx.com/en-eu/balance/recharge" hreflang="en-fr"><link rel="alternate" href="https://www.okx.com/en-eu/balance/recharge" hreflang="en-nl"><link rel="alternate" href="https://www.okx.com/en-eu/balance/recharge" hreflang="en-it"><link rel="alternate" href="https://www.okx.com/en-eu/balance/recharge" hreflang="en-es"><link rel="alternate" href="https://www.okx.com/en-eu/balance/recharge" hreflang="en-dk"><link rel="alternate" href="https://www.okx.com/en-eu/balance/recharge" hreflang="en-fi"><link rel="alternate" href="https://www.okx.com/en-eu/balance/recharge" hreflang="en-sv"><link rel="alternate" href="https://www.okx.com/en-eu/balance/recharge" hreflang="en-pl"><link rel="alternate" href="https://www.okx.com/en-eu/balance/recharge" hreflang="en-ro"><link rel="alternate" href="https://www.okx.com/fr-fr/balance/recharge" hreflang="fr-fr"><link rel="alternate" href="https://www.okx.com/fi/balance/recharge" hreflang="fi"><link rel="alternate" href="https://www.okx.com/sv/balance/recharge" hreflang="sv"><link rel="alternate" href="https://www.okx.com/zh-hans-eu/balance/recharge" hreflang="zh-Hans-de"><link rel="alternate" href="https://www.okx.com/zh-hans-eu/balance/recharge" hreflang="zh-Hans-fr"><link rel="alternate" href="https://www.okx.com/zh-hans-eu/balance/recharge" hreflang="zh-Hans-nl"><link rel="alternate" href="https://www.okx.com/zh-hans-eu/balance/recharge" hreflang="zh-Hans-it"><link rel="alternate" href="https://www.okx.com/zh-hans-eu/balance/recharge" hreflang="zh-Hans-es"><link rel="alternate" href="https://www.okx.com/ru-eu/balance/recharge" hreflang="ru-de"><link rel="alternate" href="https://www.okx.com/ru-eu/balance/recharge" hreflang="ru-ua"><link rel="alternate" href="https://www.okx.com/ru-eu/balance/recharge" hreflang="ru-de"><link rel="alternate" href="https://www.okx.com/ru-eu/balance/recharge" hreflang="ru-cy"><link rel="alternate" href="https://www.okx.com/ru-eu/balance/recharge" hreflang="ru-lv"><link rel="alternate" href="https://www.okx.com/ua-eu/balance/recharge" hreflang="uk-pl"><link rel="alternate" href="https://www.okx.com/ua-eu/balance/recharge" hreflang="uk-de"><link rel="alternate" href="https://www.okx.com/ua-eu/balance/recharge" hreflang="uk-cz"><link rel="alternate" href="https://www.okx.com/ua-eu/balance/recharge" hreflang="uk-it"><link rel="alternate" href="https://www.okx.com/ua-eu/balance/recharge" hreflang="uk-es"><link rel="alternate" href="https://www.okx.com/pl/balance/recharge" hreflang="pl"><link rel="alternate" href="https://www.okx.com/nl/balance/recharge" hreflang="nl"><link rel="alternate" href="https://www.okx.com/de/balance/recharge" hreflang="de"><link rel="alternate" href="https://www.okx.com/es-es/balance/recharge" hreflang="es-es"><link rel="alternate" href="https://www.okx.com/it/balance/recharge" hreflang="it"><link rel="alternate" href="https://www.okx.com/pt-pt/balance/recharge" hreflang="pt-pt"><link rel="alternate" href="https://www.okx.com/ro/balance/recharge" hreflang="ro"><link rel="alternate" href="https://www.okx.com/cs/balance/recharge" hreflang="cs"><link rel="alternate" href="https://www.okx.com/zh-hans-ae/balance/recharge" hreflang="zh-Hans-ae"><link rel="alternate" href="https://www.okx.com/en-ae/balance/recharge" hreflang="en-ae"><link rel="alternate" href="https://www.okx.com/ru-ae/balance/recharge" hreflang="ru-ae"><link rel="alternate" href="https://www.okx.com/fr-ae/balance/recharge" hreflang="fr-ae"><link rel="alternate" href="https://www.okx.com/ar-ae/balance/recharge" hreflang="ar-ae"><link rel="alternate" href="https://www.okx.com/pt-br/balance/recharge" hreflang="pt-br"><link rel="alternate" href="https://www.okx.com/en-br/balance/recharge" hreflang="en-br"><link rel="alternate" href="https://www.okx.com/en-au/balance/recharge" hreflang="en-au"><link rel="alternate" href="https://www.okx.com/zh-hans-au/balance/recharge" hreflang="zh-Hans-au"><link rel="alternate" href="https://www.okx.com/zh-hans-sg/balance/recharge" hreflang="zh-Hans-sg"><link rel="alternate" href="https://www.okx.com/en-sg/balance/recharge" hreflang="en-sg"><link rel="alternate" href="https://www.okx.com/en-us/balance/recharge" hreflang="en-us"><link rel="alternate" href="https://www.okx.com/nb/balance/recharge" hreflang="nb"><link rel="alternate" href="https://www.okx.com/en-gb/balance/recharge" hreflang="en-gb"><link rel="alternate" href="https://tr.okx.com/balance/recharge" hreflang="tr"><link rel="alternate" href="https://tr.okx.com/en/balance/recharge" hreflang="en-tr"><link rel="alternate" href="https://www.okx.com/balance/recharge" hreflang="x-default"><link rel="stylesheet" type="text/css" href="./sgg_files/index.7f595b10.css"><link rel="stylesheet" type="text/css" href="./sgg_files/index.953c40fd.css"><style>
